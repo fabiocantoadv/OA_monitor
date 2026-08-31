@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "OA_monitor: indicadores de Ciência Aberta com dados do OpenAlex"
+message: "Se você usar este material, por favor cite-o como abaixo."
+type: software
+authors:
+  - family-names: "Canto"
+    given-names: "Fabio Lorensi do"
+    orcid: "https://orcid.org/0000-0002-8338-1931"
+    affiliation: "UFSC / IBICT"
+  - family-names: "Dias"
+    given-names: "Thiago Magela Rodrigues"
+    orcid: "https://orcid.org/0000-0001-5057-9936"
+    affiliation: "CEFET-MG / IBICT"
+  - family-names: "Souza"
+    given-names: "Marcel Garcia de"
+    orcid: "https://orcid.org/0000-0003-2255-199X"
+    affiliation: "IBICT"
+  - family-names: "Carvalho Segundo"
+    given-names: "Washington Luís Ribeiro de"
+    orcid: "https://orcid.org/0000-0003-3635-9384"
+    affiliation: "IBICT"
+repository-code: "https://github.com/fabiocantoadv/OA_monitor"
+license: CC-BY-4.0
+version: "1.0.0"
+date-released: "2026-08-31"
+keywords:
+  - ciência aberta
+  - acesso aberto
+  - indicadores
+  - OpenAlex
+  - bibliometria

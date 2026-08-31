@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oa-monitor"
+version = "1.0.0"
+description = "Indicadores de Ciência Aberta com dados do OpenAlex — workshop ConfOA 2026"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "CC-BY-4.0" }
+authors = [
+  { name = "Fabio Lorensi do Canto", email = "fabio.lc@ufsc.br" },
+  { name = "Thiago Magela Rodrigues Dias" },
+  { name = "Marcel Garcia de Souza" },
+  { name = "Washington Luís Ribeiro de Carvalho Segundo" },
+]
+keywords = ["ciência aberta", "acesso aberto", "openalex", "bibliometria", "indicadores"]
+dependencies = [
+  "requests>=2.31",
+  "pandas>=2.0",
+  "matplotlib>=3.7",
+  "openpyxl>=3.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/fabiocantoadv/OA_monitor"
+Repository = "https://github.com/fabiocantoadv/OA_monitor"
+
+[tool.setuptools.packages.find]
+where = ["src"]

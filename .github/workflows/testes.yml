@@ -1,0 +1,24 @@
+name: testes
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt nbformat
+      - name: Notebook em dia com src/
+        run: |
+          python tools/build_notebook.py
+          git diff --exit-code notebooks/ \
+            || (echo "::error::O notebook está desatualizado. Rode 'python tools/build_notebook.py' e comite." && exit 1)
+      - run: python tests/test_pipeline.py
+      - run: python tests/test_notebook.py

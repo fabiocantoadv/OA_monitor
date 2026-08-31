@@ -1,0 +1,40 @@
+# credenciais — nunca comitar
+.env
+.env.*
+*.key
+secrets.json
+
+# dados extraídos
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+dados/
+*.csv
+*.xlsx
+!docs/**/*.csv
+
+# saídas geradas
+figuras/
+*.png
+!docs/img/*.png
+dashboard_oa.html
+specs_vega.html
+specs_vega.json
+*.zip
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# editores / SO
+.DS_Store
+.vscode/
+.idea/
+
+# node (dashboard React)
+node_modules/

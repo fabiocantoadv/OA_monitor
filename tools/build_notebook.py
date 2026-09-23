@@ -68,10 +68,10 @@ def construir() -> dict:
         "",
         "**Workshop — ConfOA 2026** · duração 3h",
         "",
-        f'<a target="_blank" href="https://colab.research.google.com/github/fabiocantoadv/'
+        f'<a href="https://colab.research.google.com/github/fabiocantoadv/'
         f'OA_monitor/blob/main/notebooks/OA_Monitor_Workshop_ConfOA2026.ipynb">'
         f'<img src="https://colab.research.google.com/assets/colab-badge.svg" '
-        f'alt="Abrir no Colab"></a>',
+        f'alt="Abrir no Colab"></a> *(para manter o GitHub aberto, use Ctrl/Cmd + clique)*',
         "",
         "Fabio Lorensi do Canto (UFSC/IBICT) · Thiago M. R. Dias (CEFET-MG/IBICT) · "
         "Marcel Garcia de Souza (IBICT) · Washington L. R. Carvalho Segundo (IBICT)",

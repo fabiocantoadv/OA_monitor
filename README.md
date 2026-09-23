@@ -3,7 +3,7 @@
 Material do workshop **"Monitorando a Ciência Aberta: geração de indicadores com dados do
 OpenAlex"**, apresentado na **ConfOA 2026**.
 
-<a target="_blank" href="https://colab.research.google.com/github/fabiocantoadv/OA_monitor/blob/main/notebooks/OA_Monitor_Workshop_ConfOA2026.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir no Colab"></a>
+<a href="https://colab.research.google.com/github/fabiocantoadv/OA_monitor/blob/main/notebooks/OA_Monitor_Workshop_ConfOA2026.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Abrir no Colab"></a> *(para manter o GitHub aberto, use Ctrl/Cmd + clique)*
 [![Licença: CC BY 4.0](https://img.shields.io/badge/licen%C3%A7a-CC%20BY%204.0-blue)](LICENSE)
 
 Extrai dados do [OpenAlex](https://openalex.org), calcula indicadores de Ciência Aberta

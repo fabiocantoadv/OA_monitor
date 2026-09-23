@@ -45,10 +45,10 @@ def code(fonte: str, titulo: str | None = None, ocultar: bool = False) -> dict:
     meta: dict = {}
     if titulo:
         cabecalho = f'# @title {titulo}'
+        if ocultar:
+            cabecalho += ' { display-mode: "form" }'
         fonte = cabecalho + "\n" + fonte
         meta["cellView"] = "form" if ocultar else "code"
-    elif ocultar:
-        meta["cellView"] = "form"
     return {
         "cell_type": "code",
         "metadata": meta,
@@ -92,17 +92,6 @@ def construir() -> dict:
         "",
         "> Todo o código deste notebook também está em "
         f"[`{REPO}`]({REPO}) como um pacote Python reutilizável (`src/oa_monitor/`).",
-    ))
-
-    C.append(code(
-        "resposta = input('Exibir códigos de apoio? (s/n): ').strip().lower()\n"
-        "EXIBIR_CODIGOS = resposta in {'s', 'sim', 'y', 'yes'}\n"
-        "if EXIBIR_CODIGOS:\n"
-        "    print('Para consultar os códigos, expanda as células de apoio abaixo.')\n"
-        "else:\n"
-        "    print('As células de apoio estão recolhidas por padrão.')\n"
-        "print('A visibilidade também pode ser alterada diretamente na interface do Colab.')",
-        titulo="Exibir códigos?",
     ))
 
     # ------------------------------------------------------- 0. credenciais

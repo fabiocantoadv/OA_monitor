@@ -45,11 +45,6 @@ def main() -> int:
             if "EMAIL = " in fonte:
                 fonte = fonte.replace('EMAIL = ""', 'EMAIL = "teste@exemplo.br"')
                 fonte = fonte.replace("USAR_API_KEY = True", "USAR_API_KEY = False")
-            if "input('Exibir códigos de apoio? (s/n): ')" in fonte:
-                fonte = fonte.replace(
-                    "resposta = input('Exibir códigos de apoio? (s/n): ')",
-                    "resposta = 'n'",
-                )
             if "NIVEL_NOVA = input('Contexto" in fonte:
                 fonte = (
                     "NIVEL_NOVA = 'pesquisador'\n"

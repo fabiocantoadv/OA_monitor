@@ -45,10 +45,10 @@ def code(fonte: str, titulo: str | None = None, ocultar: bool = False) -> dict:
     meta: dict = {}
     if titulo:
         cabecalho = f'# @title {titulo}'
-        if ocultar:
-            cabecalho += ' { display-mode: "form" }'
         fonte = cabecalho + "\n" + fonte
         meta["cellView"] = "form" if ocultar else "code"
+    elif ocultar:
+        meta["cellView"] = "form"
     return {
         "cell_type": "code",
         "metadata": meta,
@@ -92,6 +92,17 @@ def construir() -> dict:
         "",
         "> Todo o código deste notebook também está em "
         f"[`{REPO}`]({REPO}) como um pacote Python reutilizável (`src/oa_monitor/`).",
+    ))
+
+    C.append(code(
+        "resposta = input('Exibir códigos de apoio? (s/n): ').strip().lower()\n"
+        "EXIBIR_CODIGOS = resposta in {'s', 'sim', 'y', 'yes'}\n"
+        "if EXIBIR_CODIGOS:\n"
+        "    print('Para consultar os códigos, expanda as células de apoio abaixo.')\n"
+        "else:\n"
+        "    print('As células de apoio estão recolhidas por padrão.')\n"
+        "print('A visibilidade também pode ser alterada diretamente na interface do Colab.')",
+        titulo="Exibir códigos?",
     ))
 
     # ------------------------------------------------------- 0. credenciais
@@ -141,7 +152,7 @@ def construir() -> dict:
         "(com espera crescente), **paginar** por cursor (sem o teto de 10 mil registros da "
         "paginação por página) e **ler os cabeçalhos de cota** que o OpenAlex devolve.",
     ))
-    C.append(code(codigo_modulo("config") + "\n\n" + codigo_modulo("api")))
+    C.append(code(codigo_modulo("config") + "\n\n" + codigo_modulo("api"), ocultar=True))
 
     C.append(md(
         "### Filtros e extração",
@@ -150,7 +161,7 @@ def construir() -> dict:
         "`filter` da API. `achatar_work` transforma o JSON aninhado do OpenAlex numa linha "
         "de tabela — é aqui que você acrescenta um campo, se precisar de outro.",
     ))
-    C.append(code(codigo_modulo("extract")))
+    C.append(code(codigo_modulo("extract"), ocultar=True))
 
     C.append(md(
         "### Indicadores",
@@ -158,12 +169,15 @@ def construir() -> dict:
         "Cada função recebe o DataFrame e devolve outro DataFrame, pronto para gráfico ou "
         "para exportar. Nada de estado escondido.",
     ))
-    C.append(code(codigo_modulo("indicators")))
+    C.append(code(codigo_modulo("indicators"), ocultar=True))
 
     C.append(md(
         "### Gráficos, specs Vega e dashboard",
     ))
-    C.append(code(codigo_modulo("viz") + "\n\n" + codigo_modulo("vega") + "\n\n" + codigo_modulo("dashboard")))
+    C.append(code(
+        codigo_modulo("viz") + "\n\n" + codigo_modulo("vega") + "\n\n" + codigo_modulo("dashboard"),
+        ocultar=True,
+    ))
 
     C.append(md(
         "---",

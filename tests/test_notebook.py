@@ -50,6 +50,19 @@ def main() -> int:
                     "resposta = input('Exibir códigos de apoio? (s/n): ')",
                     "resposta = 'n'",
                 )
+            if "NIVEL_NOVA = input('Contexto" in fonte:
+                fonte = (
+                    "NIVEL_NOVA = 'pesquisador'\n"
+                    "IDENTIFICADOR_NOVA = '0000-0002-8338-1931'\n"
+                    "ANO_INICIO_NOVA = 2023\n"
+                    "ANO_FIM_NOVA = 2023\n"
+                    "SOMENTE_ARTIGOS_NOVA = True\n"
+                    "MAX_REGISTROS_NOVA = 40\n"
+                    "cliente.get('works', {'filter': 'publication_year:2024', 'per-page': 1, 'select': 'id'})\n"
+                    "print('Credenciais existentes do notebook reaproveitadas.')\n"
+                    "tipos_nova = ['article', 'review']\n"
+                    "filtro_nova = montar_filtro(NIVEL_NOVA, IDENTIFICADOR_NOVA, ANO_INICIO_NOVA, ANO_FIM_NOVA, tipos=tipos_nova)\n"
+                )
             if "MAX_REGISTROS = 3000" in fonte:
                 fonte = fonte.replace("MAX_REGISTROS = 3000", "MAX_REGISTROS = 400")
             fonte = fonte.replace("display(", "print(")

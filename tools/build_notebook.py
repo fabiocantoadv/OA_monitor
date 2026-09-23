@@ -504,6 +504,107 @@ def construir() -> dict:
         "    print('Fora do Colab: os arquivos já estão na pasta de trabalho.')"
     ))
 
+    # --------------------------------------------- análise adicional via input
+    C.append(md(
+        "---",
+        "# Nova análise em outro contexto",
+        "",
+        "As células seguintes permitem repetir a análise sem alterar os resultados "
+        "da primeira consulta. As credenciais já configuradas são reaproveitadas.",
+    ))
+    C.append(code(
+        "# Parâmetros da nova análise\n"
+        "NIVEL_NOVA = input('Contexto (pais/instituicao/pesquisador/fonte): ').strip().lower()\n"
+        "IDENTIFICADOR_NOVA = input('Identificador — ISO, ROR, ORCID ou ISSN: ').strip()\n"
+        "ANO_INICIO_NOVA = int(input('Ano inicial: ').strip())\n"
+        "ANO_FIM_NOVA = int(input('Ano final: ').strip())\n"
+        "SOMENTE_ARTIGOS_NOVA = input('Considerar somente artigos e reviews? (s/n): ').strip().lower() in {'s', 'sim'}\n"
+        "MAX_REGISTROS_NOVA = int(input('Máximo de obras para baixar [1000]: ').strip() or '1000')\n"
+        "\n"
+        "if NIVEL_NOVA not in {'pais', 'instituicao', 'pesquisador', 'fonte'}:\n"
+        "    raise ValueError('Contexto inválido. Use pais, instituicao, pesquisador ou fonte.')\n"
+        "if ANO_INICIO_NOVA > ANO_FIM_NOVA:\n"
+        "    raise ValueError('O ano inicial não pode ser posterior ao ano final.')\n"
+        "\n"
+        "# Reaproveita o cliente já configurado; só verifica a conexão novamente.\n"
+        "try:\n"
+        "    credenciais_ok_nova = 'credenciais' in globals() and 'cliente' in globals()\n"
+        "    if credenciais_ok_nova:\n"
+        "        cliente.get('works', {'filter': 'publication_year:2024', 'per-page': 1, 'select': 'id'})\n"
+        "        print('Credenciais existentes do notebook reaproveitadas.')\n"
+        "        print(credenciais.describe())\n"
+        "except Exception:\n"
+        "    credenciais_ok_nova = False\n"
+        "\n"
+        "if not credenciais_ok_nova:\n"
+        "    from getpass import getpass\n"
+        "    email_nova = input('E-mail para o OpenAlex: ').strip()\n"
+        "    chave_nova = getpass('OpenAlex API key (Enter para seguir sem ela): ') or None\n"
+        "    credenciais = Credentials(mailto=email_nova, api_key=chave_nova)\n"
+        "    cliente = OpenAlexClient(credenciais)\n"
+        "    cliente.get('works', {'filter': 'publication_year:2024', 'per-page': 1, 'select': 'id'})\n"
+        "    print('Novas credenciais verificadas com sucesso.')\n"
+        "    print(credenciais.describe())\n"
+        "\n"
+        "tipos_nova = ['article', 'review'] if SOMENTE_ARTIGOS_NOVA else None\n"
+        "filtro_nova = montar_filtro(NIVEL_NOVA, IDENTIFICADOR_NOVA, ANO_INICIO_NOVA, ANO_FIM_NOVA, tipos=tipos_nova)\n"
+        "print('Filtro específico:', filtro_nova)",
+        titulo="Defina os parâmetros da nova análise",
+    ))
+    C.append(code(
+        "# Extração e visualização tabular\n"
+        "resumo_nova = resumo_rapido(cliente, filtro_nova)\n"
+        "print(f'Obras encontradas: {resumo_nova[\"total\"]:,}'.replace(',', '.'))\n"
+        "\n"
+        "def progresso_nova(baixados, total):\n"
+        "    print(f'\\rBaixados: {baixados:,} / {total:,}'.replace(',', '.'), end='')\n"
+        "\n"
+        "df_nova = extrair_works(cliente, filtro_nova, max_registros=MAX_REGISTROS_NOVA, on_progress=progresso_nova)\n"
+        "print(f'\\n\\nObras baixadas: {len(df_nova):,}'.replace(',', '.'))\n"
+        "\n"
+        "if df_nova.empty:\n"
+        "    print('Nenhuma obra encontrada para este recorte.')\n"
+        "else:\n"
+        "    display(df_nova.head(20))\n"
+        "    painel_nova = painel_completo(df_nova)\n"
+        "    print('Indicadores gerais:')\n"
+        "    display(pd.DataFrame([painel_nova['gerais']]))\n"
+        "    tabelas_nova = {\n"
+        "        'Distribuição por via de acesso': painel_nova['distribuicao_oa'],\n"
+        "        'Série anual de acesso aberto': painel_nova['serie_anual_oa'],\n"
+        "        'Composição anual por via': painel_nova['serie_anual_status'],\n"
+        "        'APCs por ano': painel_nova['apc_anual'],\n"
+        "        'APCs por editora': painel_nova['apc_editora'],\n"
+        "        'Citações por via': painel_nova['citacoes_status'],\n"
+        "        'Periódicos mais utilizados': painel_nova['top_fontes'],\n"
+        "        'Acesso aberto por área': painel_nova['oa_area'],\n"
+        "    }\n"
+        "    for titulo, tabela in tabelas_nova.items():\n"
+        "        print(f'\\n{titulo}:')\n"
+        "        display(tabela) if tabela is not None and not tabela.empty else print('Sem dados disponíveis.')",
+        titulo="Extrair e visualizar em tabelas",
+    ))
+    C.append(code(
+        "# Dashboard da nova análise\n"
+        "import html\n"
+        "from IPython.display import HTML, display\n"
+        "\n"
+        "if df_nova.empty:\n"
+        "    print('Não é possível gerar o dashboard: não foram encontradas obras.')\n"
+        "else:\n"
+        "    arquivo_dashboard_nova = f'dashboard_{NIVEL_NOVA}_{ANO_INICIO_NOVA}_{ANO_FIM_NOVA}.html'\n"
+        "    gerar_dashboard(\n"
+        "        painel_nova,\n"
+        "        'Indicadores de Ciência Aberta',\n"
+        "        f'{NIVEL_NOVA}: {IDENTIFICADOR_NOVA} · {ANO_INICIO_NOVA}–{ANO_FIM_NOVA}',\n"
+        "        arquivo_dashboard_nova,\n"
+        "    )\n"
+        "    print(f'Dashboard salvo em: {arquivo_dashboard_nova}')\n"
+        "    conteudo_dashboard_nova = open(arquivo_dashboard_nova, encoding='utf-8').read()\n"
+        "    display(HTML(f'<iframe srcdoc=\"{html.escape(conteudo_dashboard_nova)}\" style=\"width:100%;height:820px;border:1px solid #e4e3df;border-radius:8px\"></iframe>'))",
+        titulo="Gerar dashboard da nova análise",
+    ))
+
     # ------------------------------------------------------- 4 exercícios
     C.append(md(
         "---",
